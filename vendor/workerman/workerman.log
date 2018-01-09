@@ -16,3 +16,5 @@ Stack trace:
 #13 D:\web\WWW\hanzi\public\lib\workerman.php(8): lib\app\test\workerman->index()
 #14 {main}
 2017-12-28 15:30:46 pid:1 Worker process terminated
+2018-01-09 16:07:48 pid:1 Worker process terminated with ERROR: E_RECOVERABLE_ERROR "Object of class Workerman\Connection\TcpConnection could not be converted to string in D:\web\WWW\blog\lib\app\test\workerman.php on line 34"
+2018-01-09 16:12:26 pid:1 Worker process terminated with ERROR: E_RECOVERABLE_ERROR "Object of class Workerman\Connection\TcpConnection could not be converted to string in D:\web\WWW\blog\lib\app\test\workerman.php on line 53"

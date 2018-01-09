@@ -24,29 +24,92 @@ function runWorker() {
 
     $ws_worker->cons = [];
 
-    // Emitted when new connection come
     $ws_worker->onConnect = function ($connection) {
-        for ($i = 1; $i < 100000; $i++) {
-            if (!isset($ws_worker->cons[$i])) {
-                $ws_worker->cons[$i] = $i;
-                $connection->id = $i;
-                break;
-            }
+        $user = getUser($connection->id);
+        $users = getUserList();
+        $json = [
+            'message' => $user['name'] . ' 上线',
+            'users' => $users,
+        ];
+        foreach ($connection->worker->connections as $con) {
+            $con->send(json_encode($json));
         }
     };
 
-    // Emitted when data received
-    $ws_worker->onMessage = function ($connection, $data) {
-        // Send hello $data
-        $connection->send('hello ' . $data . ':' . $connection->id);
+    $ws_worker->onMessage = function ($connection, $message) {
+        $message = json_decode($message, true);
+        $action = $message['action'];
     };
 
-    // Emitted when connection closed
     $ws_worker->onClose = function ($connection) {
-        $i = $connection->id;
-        echo $i . "\n\t";
+        $user = delUser($connection->id);
+        $users = getUserList();
+        $json = [
+            'message' => $user['name'] . ' 下线',
+            'users' => $users,
+        ];
+        foreach ($connection->worker->connections as $con) {
+            $con->send(json_encode($json));
+        }
     };
 
-    // Run worker
     Worker::runAll();
+}
+
+/**
+ * 获得新用户
+ * @return [type] [description]
+ */
+function getUser($id) {
+    $names = ['街桷x襡嗳她', '丶暧昧丨灬媚惑', '小嘴冰灬丿凉', '保存心情', '丨浅色o丶', '寳丶灬尛破孩', '壞丶囡囡', 'www.keaidian.com', '羙兮丶Croty', '卩s丶残雪灬', '結束丶劇情丨'];
+    $userFile = config('runtime_workerman') . '/users.txt';
+    if (!file_exists($userFile)) {
+        $fp = fopen($userFile, 'a');
+        fclose($fp);
+    }
+    $userJson = file_get_contents($userFile);
+    $users = json_decode($userJson, true);
+    if (count($users) == count($names)) {
+        return 'full';
+    }
+    foreach ($names as $key => $name) {
+        $md5 = md5($name);
+        if (isset($users[$md5])) {
+            continue;
+        }
+        $user = [
+            'md5' => $md5,
+            'name' => $name,
+            'id' => $id,
+        ];
+        break;
+    }
+    $users[$user['md5']] = $user;
+    file_put_contents($userFile, json_encode($users));
+    return $user;
+}
+/**
+ * 用户下线
+ * @param  [type] $md5 [description]
+ * @return [type]      [description]
+ */
+function delUser($id) {
+    $userFile = config('runtime_workerman') . '/users.txt';
+    $userJson = file_get_contents($userFile);
+    $users = json_decode($userJson, true);
+    foreach ($users as $key => $user) {
+        if ($user['id'] == $id) {
+            $temp = $user;
+            unset($users[$key]);
+        }
+    }
+    $user = $temp;
+    file_put_contents($userFile, json_encode($users));
+    return $user;
+}
+function getUserList() {
+    $userFile = config('runtime_workerman') . '/users.txt';
+    $userJson = file_get_contents($userFile);
+    $users = json_decode($userJson, true);
+    return $users;
 }
