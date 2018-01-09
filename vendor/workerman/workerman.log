@@ -1,0 +1,18 @@
+2017-12-28 15:30:46 pid:1 Error: Cannot access empty property in D:\web\WWW\hanzi\public\lib\app\test\workerman.php:46
+Stack trace:
+#0 [internal function]: lib\app\test\{closure}(Object(Workerman\Connection\TcpConnection))
+#1 D:\web\WWW\hanzi\public\vendor\workerman\workerman\Connection\TcpConnection.php(868): call_user_func(Object(Closure), Object(Workerman\Connection\TcpConnection))
+#2 D:\web\WWW\hanzi\public\vendor\workerman\workerman\Connection\TcpConnection.php(782): Workerman\Connection\TcpConnection->destroy()
+#3 D:\web\WWW\hanzi\public\vendor\workerman\workerman\Protocols\Websocket.php(98): Workerman\Connection\TcpConnection->close()
+#4 D:\web\WWW\hanzi\public\vendor\workerman\workerman\Connection\TcpConnection.php(621): Workerman\Protocols\Websocket::input('\x88\x82\xF2\xA3g\x86\xF1J', Object(Workerman\Connection\TcpConnection))
+#5 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #32)
+#6 D:\web\WWW\hanzi\public\vendor\workerman\workerman\Events\Select.php(286): call_user_func_array(Array, Array)
+#7 D:\web\WWW\hanzi\public\vendor\workerman\workerman\Worker.php(2096): Workerman\Events\Select->loop()
+#8 D:\web\WWW\hanzi\public\vendor\workerman\workerman\Worker.php(1160): Workerman\Worker->run()
+#9 D:\web\WWW\hanzi\public\vendor\workerman\workerman\Worker.php(1102): Workerman\Worker::forkWorkersForWindows()
+#10 D:\web\WWW\hanzi\public\vendor\workerman\workerman\Worker.php(459): Workerman\Worker::forkWorkers()
+#11 D:\web\WWW\hanzi\public\lib\app\test\workerman.php(51): Workerman\Worker::runAll()
+#12 D:\web\WWW\hanzi\public\lib\app\test\workerman.php(9): lib\app\test\runWorker()
+#13 D:\web\WWW\hanzi\public\lib\workerman.php(8): lib\app\test\workerman->index()
+#14 {main}
+2017-12-28 15:30:46 pid:1 Worker process terminated

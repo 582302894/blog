@@ -1,0 +1,14 @@
+{
+    "name": "king/public",
+    "authors": [
+        {
+            "name": "582302894",
+            "email": "582302894@qq.com"
+        }
+    ],
+    "require": {
+        "doctrine/cache": "^1.6",
+        "smarty/smarty": "^3.1",
+        "workerman/workerman": "^3.5"
+    }
+}

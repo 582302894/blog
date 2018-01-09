@@ -1,0 +1,8 @@
+<?php
+namespace lib\app\index;
+
+class index {
+    public function index() {
+
+    }
+}
