@@ -8,6 +8,8 @@ class ComposerStaticInit5d607e793a0ad6311e87e239929f9e5c
 {
     public static $files = array (
         'f084d01b0a599f67676cffef638aa95b' => __DIR__ . '/..' . '/smarty/smarty/libs/bootstrap.php',
+        '9c9a81795c809f4710dd20bec1e349df' => __DIR__ . '/..' . '/joshcam/mysqli-database-class/MysqliDb.php',
+        '94df122b6b32ca0be78d482c26e5ce00' => __DIR__ . '/..' . '/joshcam/mysqli-database-class/dbObject.php',
     );
 
     public static $prefixLengthsPsr4 = array (

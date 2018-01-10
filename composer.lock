@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9b04b7bb81aaab03bb28e9c4439acee3",
+    "content-hash": "d1697bfbd380fef44efe4108655c2a26",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -75,6 +75,51 @@
                 "caching"
             ],
             "time": "2017-07-22T12:49:21+00:00"
+        },
+        {
+            "name": "joshcam/mysqli-database-class",
+            "version": "v2.9.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ThingEngineer/PHP-MySQLi-Database-Class.git",
+                "reference": "30d7d0fe8bfe2142b48f23527787a2bc9de0639a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/ThingEngineer/PHP-MySQLi-Database-Class/30d7d0fe8bfe2142b48f23527787a2bc9de0639a.zip",
+                "reference": "30d7d0fe8bfe2142b48f23527787a2bc9de0639a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "MysqliDb.php",
+                    "dbObject.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Josh Campbell",
+                    "email": "josh.lee.campbell@gmail.com",
+                    "homepage": "https://github.com/joshcam",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Alexander V. Butenko",
+                    "email": "a.butenka@gmail.com",
+                    "homepage": "http://smarttechdo.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP MySQL Wrapper and object mapper which utilizes MySQLi and prepared statements",
+            "time": "2017-11-30T10:29:41+00:00"
         },
         {
             "name": "smarty/smarty",

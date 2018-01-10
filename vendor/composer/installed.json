@@ -173,5 +173,52 @@
             "asynchronous",
             "event-loop"
         ]
+    },
+    {
+        "name": "joshcam/mysqli-database-class",
+        "version": "v2.9.1",
+        "version_normalized": "2.9.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/ThingEngineer/PHP-MySQLi-Database-Class.git",
+            "reference": "30d7d0fe8bfe2142b48f23527787a2bc9de0639a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://files.phpcomposer.com/files/ThingEngineer/PHP-MySQLi-Database-Class/30d7d0fe8bfe2142b48f23527787a2bc9de0639a.zip",
+            "reference": "30d7d0fe8bfe2142b48f23527787a2bc9de0639a",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2017-11-30T10:29:41+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "MysqliDb.php",
+                "dbObject.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-3.0"
+        ],
+        "authors": [
+            {
+                "name": "Josh Campbell",
+                "email": "josh.lee.campbell@gmail.com",
+                "homepage": "https://github.com/joshcam",
+                "role": "Developer"
+            },
+            {
+                "name": "Alexander V. Butenko",
+                "email": "a.butenka@gmail.com",
+                "homepage": "http://smarttechdo.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "PHP MySQL Wrapper and object mapper which utilizes MySQLi and prepared statements"
     }
 ]

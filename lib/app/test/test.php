@@ -13,4 +13,8 @@ class test {
     public function test() {
         Cache::get('name');
     }
+
+    public function talk(){
+    	
+    }
 }
