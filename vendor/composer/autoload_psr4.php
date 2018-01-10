@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'think\\' => array($vendorDir . '/topthink/think-orm/src', $vendorDir . '/topthink/think-validate/src', $vendorDir . '/topthink/think-template/src'),
     'Workerman\\' => array($vendorDir . '/workerman/workerman'),
     'Doctrine\\Common\\Cache\\' => array($vendorDir . '/doctrine/cache/lib/Doctrine/Common/Cache'),
 );

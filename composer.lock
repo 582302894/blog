@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d1697bfbd380fef44efe4108655c2a26",
+    "content-hash": "0a426bddb929f3b5fa9f00112d30366d",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -173,6 +173,118 @@
                 "templating"
             ],
             "time": "2016-12-14T21:57:25+00:00"
+        },
+        {
+            "name": "topthink/think-orm",
+            "version": "v1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/top-think/think-orm.git",
+                "reference": "a625837e9d799b7251474083619b45c615a2efdb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/top-think/think-orm/a625837e9d799b7251474083619b45c615a2efdb.zip",
+                "reference": "a625837e9d799b7251474083619b45c615a2efdb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "think\\": "src"
+                },
+                "files": [
+                    "src/config.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "liu21st",
+                    "email": "liu21st@gmail.com"
+                }
+            ],
+            "description": "think orm",
+            "time": "2018-01-05T04:01:56+00:00"
+        },
+        {
+            "name": "topthink/think-template",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/top-think/think-template.git",
+                "reference": "a83fb6a8d9e4744dab7a1a917e229adf454a3e1c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/top-think/think-template/a83fb6a8d9e4744dab7a1a917e229adf454a3e1c.zip",
+                "reference": "a83fb6a8d9e4744dab7a1a917e229adf454a3e1c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "think\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "liu21st",
+                    "email": "liu21st@gmail.com"
+                }
+            ],
+            "description": "the php template engine",
+            "time": "2017-11-01T07:17:30+00:00"
+        },
+        {
+            "name": "topthink/think-validate",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/top-think/think-validate.git",
+                "reference": "2fd2f1305b0d013f235679bfcb398a37d400b0e5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/top-think/think-validate/2fd2f1305b0d013f235679bfcb398a37d400b0e5.zip",
+                "reference": "2fd2f1305b0d013f235679bfcb398a37d400b0e5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "think\\": "src"
+                },
+                "files": []
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "liu21st",
+                    "email": "liu21st@gmail.com"
+                }
+            ],
+            "description": "think validate",
+            "time": "2017-11-17T03:58:39+00:00"
         },
         {
             "name": "workerman/workerman",
