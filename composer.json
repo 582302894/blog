@@ -9,6 +9,11 @@
     "require": {
         "doctrine/cache": "^1.6",
         "smarty/smarty": "^3.1",
-        "workerman/workerman": "^3.5"
+        "workerman/workerman": "^3.5",
+        "joshcam/mysqli-database-class": "^2.9",
+        "topthink/think-orm": "^1.0",
+        "topthink/think-validate": "^1.0",
+        "topthink/think-template": "^1.0",
+        "monolog/monolog": "^1.23"
     }
 }

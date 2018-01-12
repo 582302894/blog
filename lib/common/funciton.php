@@ -119,3 +119,11 @@ function getStrPos($haystack = '', $needle = '') {
     }
     return $strPos;
 }
+
+function db($table) {
+    $path = COMPOSER_SCRIPT_PATH . '/lib/obj/mysql.php';
+    require_once $path;
+    $class = '\\lib\\obj\\mysql';
+    $db = new $class($table);
+    return $db;
+}
