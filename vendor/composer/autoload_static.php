@@ -22,6 +22,14 @@ class ComposerStaticInit5d607e793a0ad6311e87e239929f9e5c
         array (
             'Workerman\\' => 10,
         ),
+        'P' => 
+        array (
+            'Psr\\Log\\' => 8,
+        ),
+        'M' => 
+        array (
+            'Monolog\\' => 8,
+        ),
         'D' => 
         array (
             'Doctrine\\Common\\Cache\\' => 22,
@@ -38,6 +46,14 @@ class ComposerStaticInit5d607e793a0ad6311e87e239929f9e5c
         'Workerman\\' => 
         array (
             0 => __DIR__ . '/..' . '/workerman/workerman',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
+        'Monolog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
         'Doctrine\\Common\\Cache\\' => 
         array (

@@ -13,6 +13,7 @@
         "joshcam/mysqli-database-class": "^2.9",
         "topthink/think-orm": "^1.0",
         "topthink/think-validate": "^1.0",
-        "topthink/think-template": "^1.0"
+        "topthink/think-template": "^1.0",
+        "monolog/monolog": "^1.23"
     }
 }
