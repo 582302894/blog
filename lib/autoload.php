@@ -6,6 +6,7 @@ $files = [
     COMPOSER_SCRIPT_PATH . '/lib/common/funciton.php',
     COMPOSER_SCRIPT_PATH . '/vendor/autoload.php',
     COMPOSER_SCRIPT_PATH . '/lib/obj/route.php',
+    COMPOSER_SCRIPT_PATH . '/lib/obj/Db.php',
     COMPOSER_SCRIPT_PATH . '/lib/obj/view.php',
 
     COMPOSER_SCRIPT_PATH . '/lib/obj/cache.php',
@@ -18,6 +19,7 @@ foreach ($files as $file) {
 }
 
 try {
+    \lib\obj\Db::run();
     \lib\obj\route::run();
 } catch (\Exception $e) {
     show($e);

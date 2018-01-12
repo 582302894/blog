@@ -1,1 +1,0 @@
-php lib/workerman.php start

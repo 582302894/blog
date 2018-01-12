@@ -12,4 +12,8 @@ return [
         'port' => '3306',
         'charset' => 'utf-8',
     ],
+    'smarty' => [
+        'left' => '{s',
+        'right' => 's}',
+    ],
 ];

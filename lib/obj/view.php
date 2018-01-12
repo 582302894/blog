@@ -36,6 +36,8 @@ class view {
         $smarty->caching = true;
         $smarty->compile_dir = COMPOSER_SCRIPT_PATH . '/lib/runtime/cache/smarty/template';
         $smarty->cache_dir = COMPOSER_SCRIPT_PATH . '/lib/runtime/cache/smarty/cache';
+        $smarty->left_delimiter = config('smarty')['left'];
+        $smarty->right_delimiter = config('smarty')['right'];
         $smarty->cache_lifetime = 120;
         foreach ($args as $key => $value) {
             $smarty->assign($key, $value);

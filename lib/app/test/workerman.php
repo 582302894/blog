@@ -13,6 +13,15 @@ class workerman {
     }
 
     public function talk() {
-        show(db('user')->select());
+        try {
+            throw new \Exception("Error Processing Request", 1);            
+        } catch (\Exception $e) {
+            // Log
+        }
+        return view();
+    }
+
+    public function runWorkerTest3() {
+        $runWorkerTest3 = server('runWorkerTest3', 'test')->runWorker();
     }
 }

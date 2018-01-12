@@ -1,5 +1,7 @@
 <?php
 
+echo gethostname() . "\n\r";
+
 echo ("1+5=" . 5) + 1; // 2
 echo ("1+5=" . 1) + 5; // 6
 echo ("5+1=" . 5) + 1; // 6
