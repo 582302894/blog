@@ -23,7 +23,7 @@ class route {
         require_once COMPOSER_SCRIPT_PATH . '/lib/app/' . $m . '/' . $c . '.php';
         $class = "\lib\app\\" . $m . "\\" . $c;
         $app = new $class();
-        call_user_func(array($app, $a));
+        $view = call_user_func(array($app, $a));
         header('Content-type:html');
         echo $view;
     }

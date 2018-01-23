@@ -13,11 +13,6 @@ class workerman {
     }
 
     public function talk() {
-        try {
-            throw new \Exception("Error Processing Request", 1);            
-        } catch (\Exception $e) {
-            // Log
-        }
         return view();
     }
 

@@ -1,6 +1,7 @@
 <?php
 namespace lib\app\test\server;
 
+use lib\app\log;
 use think\Db;
 use Workerman\Worker;
 
@@ -27,10 +28,9 @@ function runWorkerTest3() {
 
     $ws_worker->onMessage = function ($connection, $message) {
         try {
-            dealMessageCatch($connection, $message);
+            dealMessage($connection, $message);
         } catch (\Exception $e) {
-            //异常处理
-            // throw $e;
+            log::exception($e);
         }
 
     };
@@ -39,8 +39,7 @@ function runWorkerTest3() {
         try {
             dealClose($connection);
         } catch (\Exception $e) {
-            //异常处理
-            // throw $e;
+            log::exception($e);
         }
     };
 

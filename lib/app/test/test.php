@@ -14,7 +14,7 @@ class test {
     public function test() {
         // log::error('nameasdlasjdlasd');
         try {
-            throw new \Exception("Error Processing Request", 1);
+            // cinss();
         } catch (\Exception $e) {
             log::exception($e);
         }

@@ -127,3 +127,25 @@ function db($table) {
     $db = new $class($table);
     return $db;
 }
+
+//获取 fatal error
+function fatal_handler() {
+    define('E_FATAL', E_ERROR | E_USER_ERROR | E_CORE_ERROR |
+        E_COMPILE_ERROR | E_RECOVERABLE_ERROR | E_PARSE);
+    $error = error_get_last();
+    if ($error && ($error["type"] === ($error["type"] & E_FATAL))) {
+        \lib\obj\log::fatalError($error);
+        die('fatal error die,check log');
+    }
+}
+
+//获取所有的 error
+function error_handler($errno, $errstr, $errfile, $errline) {
+    \lib\obj\log::fatalError([
+        'message' => $errstr,
+        'file' => $errfile,
+        'line' => $errline,
+        'type' => $errno,
+    ]);
+    die('fatal error die,check log');
+}
