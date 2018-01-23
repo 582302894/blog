@@ -10,6 +10,7 @@ $files = [
     COMPOSER_SCRIPT_PATH . '/lib/obj/view.php',
 
     COMPOSER_SCRIPT_PATH . '/lib/obj/cache.php',
+    COMPOSER_SCRIPT_PATH . '/lib/obj/log.php',
 
     COMPOSER_SCRIPT_PATH . '/lib/common/helper.php',
 ];
@@ -22,5 +23,6 @@ try {
     \lib\obj\Db::run();
     \lib\obj\route::run();
 } catch (\Exception $e) {
+    \lib\obj\log::exception($e);
     show($e);
 }

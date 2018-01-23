@@ -301,3 +301,19 @@ Stack trace:
 #11 D:\web\WWW\blog\lib\command\workerman\runWorkerTest3.php(8): lib\app\test\workerman->runWorkerTest3()
 #12 {main}
 2018-01-12 10:02:09 pid:1 Worker process terminated
+2018-01-23 15:45:02 pid:1 Error: Call to undefined function lib\app\test\server\dealMessageCatch() in D:\web\WWW\blog\lib\app\test\server\runWorkerTest3.php:30
+Stack trace:
+#0 [internal function]: lib\app\test\server\{closure}(Object(Workerman\Connection\TcpConnection), '{"action":"init...')
+#1 D:\web\WWW\blog\vendor\workerman\workerman\Connection\TcpConnection.php(657): call_user_func(Object(Closure), Object(Workerman\Connection\TcpConnection), '{"action":"init...')
+#2 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #43)
+#3 D:\web\WWW\blog\vendor\workerman\workerman\Events\Select.php(286): call_user_func_array(Array, Array)
+#4 D:\web\WWW\blog\vendor\workerman\workerman\Worker.php(2096): Workerman\Events\Select->loop()
+#5 D:\web\WWW\blog\vendor\workerman\workerman\Worker.php(1160): Workerman\Worker->run()
+#6 D:\web\WWW\blog\vendor\workerman\workerman\Worker.php(1102): Workerman\Worker::forkWorkersForWindows()
+#7 D:\web\WWW\blog\vendor\workerman\workerman\Worker.php(459): Workerman\Worker::forkWorkers()
+#8 D:\web\WWW\blog\lib\app\test\server\runWorkerTest3.php(47): Workerman\Worker::runAll()
+#9 D:\web\WWW\blog\lib\app\test\server\runWorkerTest3.php(9): lib\app\test\server\runWorkerTest3()
+#10 D:\web\WWW\blog\lib\app\test\workerman.php(25): lib\app\test\server\runWorkerTest3->runWorker()
+#11 D:\web\WWW\blog\lib\command\workerman\runWorkerTest3.php(8): lib\app\test\workerman->runWorkerTest3()
+#12 {main}
+2018-01-23 15:45:02 pid:1 Worker process terminated
