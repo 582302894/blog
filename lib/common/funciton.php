@@ -139,9 +139,9 @@ function fatal_handler() {
     }
 }
 
-//获取所有的 error
+//获取其他所有的 error
 function error_handler($errno, $errstr, $errfile, $errline) {
-    \lib\obj\log::fatalError([
+    \lib\obj\log::notice([
         'message' => $errstr,
         'file' => $errfile,
         'line' => $errline,

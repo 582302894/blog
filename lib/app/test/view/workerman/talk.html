@@ -106,7 +106,7 @@ $(function() {
                     alert('还未输入名称')
                     return;
                 }
-                var res = sendUsername(this.username);
+                sendUsername(this.username);
             }
         }
     });
@@ -144,7 +144,7 @@ function sendUsername(username) {
         action: 'init',
         username: username,
     }
-    var message = ws.send(json_encode(data));
+    ws.send(json_encode(data));
 }
 
 function dealMessage(message) {
