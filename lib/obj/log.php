@@ -7,7 +7,16 @@ use Monolog\Logger;
 
 class log {
 
+    /**
+     * 检查日志目录文件
+     * @param  string $prefix [description]
+     * @return [type]         [description]
+     */
     public static function checkPath($prefix = '') {
+        $basePath = COMPOSER_SCRIPT_PATH . '/lib/runtime';
+        if (!is_writable($basePath)) {
+            throw new \Exception("log path can't be written");
+        }
         $logPath = COMPOSER_SCRIPT_PATH . '/lib/runtime/log/' . date('Y-m');
         if (!is_dir($logPath)) {
             mkdir($logPath, 777, true);
