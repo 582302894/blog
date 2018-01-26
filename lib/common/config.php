@@ -13,7 +13,7 @@ return [
         'charset' => 'utf-8',
     ],
     'smarty' => [
-        'left' => '{s',
-        'right' => 's}',
+        'left' => '{----',
+        'right' => '----}',
     ],
 ];

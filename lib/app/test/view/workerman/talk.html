@@ -72,17 +72,18 @@ textarea {
                 <button v-on:click="usernameButtonClick">{{usernameButton}}</button>
             </p>
             <p client-id="all">全部</p>
-            <template v-for="user in userLists">
-                <p client-id="{{user.con_id}}">{{user.username}}</p>
+            <template v-for="(user,index) in userLists">
+                <p client-id="{{user.con_id}}" v-on:click="sendClientId(user.con_id,user.username)">{{user.username}}</p>
             </template>
         </div>
         <div class="talk">
             <div class="messages">
             </div>
             <div class="client-talk">
-                <textarea></textarea>
+                <div v-show='sendToShow'>发送给 {{sendToUsername}}</div>
+                <textarea v-model="semdMessageText"></textarea>
                 <br>
-                <button>发送</button>
+                <button v-on:click="sendMessage">发送</button>
             </div>
         </div>
     </div>
@@ -98,7 +99,11 @@ $(function() {
         data: {
             username: '',
             usernameButton: '确定',
-            userLists: userLists
+            userLists: userLists,
+            semdMessageText: '',
+            sendTo: 'all',
+            sendToUsername: '',
+            sendToShow: false,
         },
         methods: {
             usernameButtonClick: function(event) {
@@ -107,6 +112,21 @@ $(function() {
                     return;
                 }
                 sendUsername(this.username);
+            },
+            sendMessage(event) {
+                sendUserMessage(this.semdMessageText, this.sendTo);
+                this.semdMessageText = '';
+            },
+            sendClientId(id, username) {
+                if (id == this.sendTo) {
+                    this.sendTo = 'all';
+                    this.sendToShow = false;
+                    this.sendToUsername = '';
+                } else {
+                    this.sendTo = id;
+                    this.sendToShow = true;
+                    this.sendToUsername = username;
+                }
             }
         }
     });
@@ -164,5 +184,22 @@ function dealMessage(message) {
 
 function addErrorMessage(message) {
     alert(message);
+}
+
+function sendUserMessage(message, sendTo) {
+    if (sendTo != 'all') {
+        var data = {
+            action: 'send_one',
+            send_to: sendTo,
+            message: message,
+        }
+        ws.send(json_encode(data));
+        return;
+    }
+    var data = {
+        action: 'public',
+        message: message,
+    }
+    ws.send(json_encode(data));
 }
 </script>

@@ -3,6 +3,7 @@
 namespace lib\app\test;
 use lib\obj\cache;
 use lib\obj\log;
+use think\Db;
 
 class test {
     public function find() {
@@ -12,6 +13,10 @@ class test {
     }
 
     public function test() {
+        $user = Db::table('user')->where(['con_id'=>1])->find();
+        show($user['username']);
+        // show($user);
+        die;
         // log::error('nameasdlasjdlasd');
         try {
             // cinss();

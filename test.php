@@ -1,21 +1,9 @@
 <?php
 
-echo gethostname() . "\n\r";
 
-echo ("1+5=" . 5) + 1; // 2
-echo ("1+5=" . 1) + 5; // 6
-echo ("5+1=" . 5) + 1; // 6
-echo ("5+1=" . 1) + 5; // 10
-echo "\n";
-echo intval("1+5=") . "\n";
-echo intval("1+5=") . "\n";
-echo intval("5+5=") . "\n";
-echo intval("5+5=") . "\n";
+$url = 'http://127.0.0.1/web/baidu/yingxiao/v2/home/product/details/id/685';
 
-// .优先计算了，结果字符串
-// 遇到+，尝试转数字类型，转的过程中遇到非数字停止，所以只剩第一个数字+最后一个数字
-// 另外 就算这种方式知识了解，实际用的正确，敢写这样代码的早已经被正经公司开除了
-// 
-// 
-// 
-// 
+for ($i = 0; $i < 10; $i++) {
+    file_get_contents($url);
+}
+die('die');

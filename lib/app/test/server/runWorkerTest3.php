@@ -1,7 +1,7 @@
 <?php
 namespace lib\app\test\server;
 
-use lib\app\log;
+use lib\obj\log;
 use think\Db;
 use Workerman\Worker;
 
@@ -54,6 +54,12 @@ function dealMessage(&$con, $message) {
     $message = json_decode($message, true);
     if ($message['action'] == 'init') {
         addNewUser($con, $message['username']);
+    }
+    if ($message['action'] == 'public') {
+        sendPublicMessage($con, $message['message']);
+    }
+    if ($message['action'] == 'send_one') {
+        sendOneMessage($con, $message['message'], $message['send_to']);
     }
 }
 /**
@@ -125,4 +131,35 @@ function dealClose($con) {
     $user['online_status'] = 0;
     Db::table('user')->update($user);
     sendMessageToAll($con, json_encode(['action' => 'all', 'message' => $user['username'] . ' 下线了', 'client_id' => $con->id]));
+}
+
+function sendPublicMessage($con, $message) {
+    $user = Db::table('user')->where(['con_id' => $con->id])->find();
+    if ($user == null) {
+        throw new Exception("sendPublicMessage no user");
+    }
+    $json = [
+        'action' => 'all',
+        'message' => $user['username'] . ':' . $message,
+        'client_id' => $con->id,
+    ];
+    sendMessageToAll($con, json_encode($json));
+}
+
+function sendOneMessage($con, $message, $client_id) {
+    $user = Db::table('user')->where(['con_id' => $con->id])->find();
+    $toUser = Db::table('user')->where(['con_id' => $client_id])->find();
+    if ($user == null || $toUser == null) {
+        throw new Exception("谈话结束");
+    }
+    sendMessageToOne($con, $client_id, json_encode(['action' => 'all', 'message' => $user['username'] . ' 对你说: ' . $message]));
+    sendMessageToOne($con, $con->id, json_encode(['action' => 'all', 'message' => '你对' . $toUser['username'] . '说: ' . $message]));
+}
+
+function sendMessageToOne(&$con, $con_id, $json) {
+    foreach ($con->worker->connections as $connection) {
+        if ($connection->id == $con_id) {
+            $connection->send($json);
+        }
+    }
 }
