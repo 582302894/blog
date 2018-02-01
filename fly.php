@@ -1,12 +1,16 @@
 <?php
 namespace composer;
+define('COMPOSER_SCRIPT_PATH', __DIR__);
 error_reporting(E_ALL);
 
+use lib\obj\cache;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
-//Load composer's autoloader
-require 'vendor/autoload.php';
+require COMPOSER_SCRIPT_PATH . '/lib/autoload.php';
+// require COMPOSER_SCRIPT_PATH . '/lib/obj/cache.php';
+// require 'vendor/autoload.php';
+
 function sendMail($content) {
 
     $mail = new PHPMailer(true); // Passing `true` enables exceptions
@@ -30,7 +34,7 @@ function sendMail($content) {
 
         $mail->setFrom('18373250360@163.com', 'Mailer');
         $mail->addAddress('1125477664@qq.com'); // Name is optional
-       
+
         $mail->isHTML(true); // Set email format to HTML
         $mail->Subject = 'self email';
         $mail->Body = $content;
@@ -43,7 +47,5 @@ function sendMail($content) {
         echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
     }
 }
-
 // sendMail('alksjdklasd');
-
 
