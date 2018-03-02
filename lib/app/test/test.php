@@ -13,7 +13,7 @@ class test {
     }
 
     public function test() {
-        $user = Db::table('user')->where(['con_id'=>1])->find();
+        $user = Db::table('user')->where(['con_id' => 1])->find();
         show($user['username']);
         // show($user);
         die;
@@ -25,5 +25,17 @@ class test {
         }
         die;
         Cache::get('name');
+    }
+
+    public function tag() {
+        $dbCoinfig = [
+            'hostname' => '127.0.0.1',
+            'database' => 'test',
+            'username' => 'root',
+            'password' => 'root',
+        ];
+        \lib\obj\Db::run($dbCoinfig);
+
+        return view('');
     }
 }
