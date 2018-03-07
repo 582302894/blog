@@ -1,6 +1,9 @@
 <?php
+namespace composer;
 
-$res = stream_get_wrappers();
+define('PHP_CLI', true);
+define('COMPOSER_SCRIPT_PATH', __DIR__);
 
-echo "<pre>";
-print_r($res);
+require COMPOSER_SCRIPT_PATH . '/lib/autoload.php';
+
+\my\test::test();

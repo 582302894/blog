@@ -16,5 +16,8 @@
         "topthink/think-template": "^1.0",
         "monolog/monolog": "^1.23",
         "PHPMailer/PHPMailer":"^6.0" 
+    },
+    "autoload":{
+        "psr-4":{"my\\":"src/"}
     }
 }
