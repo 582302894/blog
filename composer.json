@@ -1,11 +1,11 @@
 {
-    "name": "king/public",
-    "authors": [
-        {
-            "name": "582302894",
-            "email": "582302894@qq.com"
-        }
-    ],
+    "name": "582302894/blog",
+    "description": "a simple project,just for me",
+    "homepage": "https://github.com/582302894/blog",
+    "authors": [{
+        "name": "582302894",
+        "email": "582302894@qq.com"
+    }],
     "require": {
         "doctrine/cache": "^1.6",
         "smarty/smarty": "^3.1",
@@ -15,9 +15,12 @@
         "topthink/think-validate": "^1.0",
         "topthink/think-template": "^1.0",
         "monolog/monolog": "^1.23",
-        "PHPMailer/PHPMailer":"^6.0" 
+        "PHPMailer/PHPMailer": "^6.0"
     },
-    "autoload":{
-        "psr-4":{"my\\":"src/"}
-    }
+    "autoload": {
+        "psr-4": {
+            "my\\": "src/"
+        }
+    },
+    "version": "1.0.0"
 }
