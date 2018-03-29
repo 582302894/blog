@@ -18,6 +18,10 @@ class ComposerStaticInit5d607e793a0ad6311e87e239929f9e5c
         array (
             'think\\' => 6,
         ),
+        'm' => 
+        array (
+            'my\\' => 3,
+        ),
         'W' => 
         array (
             'Workerman\\' => 10,
@@ -43,6 +47,10 @@ class ComposerStaticInit5d607e793a0ad6311e87e239929f9e5c
             0 => __DIR__ . '/..' . '/topthink/think-orm/src',
             1 => __DIR__ . '/..' . '/topthink/think-validate/src',
             2 => __DIR__ . '/..' . '/topthink/think-template/src',
+        ),
+        'my\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
         ),
         'Workerman\\' => 
         array (
