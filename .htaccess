@@ -1,0 +1,4 @@
+<ifmodule mod_rewrite.c>
+	RewriteEngine On
+	RewriteRule ^(.*)$ index.php?s=$1 [QSA,PT,L]
+</ifmodule>
