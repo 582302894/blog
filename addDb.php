@@ -16,11 +16,11 @@ $dbCoinfig = [
 
 $lastId = 0;
 
-for ($i = 1; $i <= 30000000; $i++) {
-// for ($i = 1; $i <= 30000; $i++) {
+for ($i = 1; $i <= 1000000; $i++) {
+// for ($i = 1; $i <= 2000; $i++) {
     if (($i % 2000) == 0) {
         addDbData($lastId + $i - 2000 + 1, $lastId + $i);
-        echo $i . "  " . number_format($i * 100 / 30000000, 1) . "\n";
+        echo $i . "  " . number_format($i * 100 / 10000000, 1) . "\n";
     }
 }
 
@@ -28,9 +28,9 @@ echo "end";
 
 function addDbData($start, $end) {
     $time = time();
-    $sql = "INSERT INTO `test`.`test` (`id`, `name`, `time`, `type`, `status`) VALUES ";
+    $sql = "INSERT INTO `yx_product_article_tag` (`tag_id`, `article_id`, `create_t`, `status`) VALUES ";
     for ($i = $start; $i <= $end; $i++) {
-        $sql .= "(" . $i . "," . $i . "," . ($time + $i) . "," . ($i % 8) . "," . ($i % 2) . "),";
+        $sql .= "('" . rand(1, 108) . "', " . rand(1, 10000) . ", '" . date('Y-m-d H:i:s') . "', '1'),";
     }
     $sql = substr($sql, 0, strlen($sql) - 1) . ";\n";
     $fp = fopen('./addDb.sql', 'a');
