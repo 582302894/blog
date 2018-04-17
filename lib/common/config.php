@@ -1,6 +1,6 @@
 <?php
 
-return [
+$data = [
     'cache_path' => COMPOSER_SCRIPT_PATH . '/lib/runtime/cache/data',
     'runtime_workerman' => COMPOSER_SCRIPT_PATH . '/lib/runtime/workerman',
     'cache_time' => 3600,
@@ -17,3 +17,10 @@ return [
         'right' => '----}',
     ],
 ];
+
+if (file_exists(__DIR__ . '/private.php')) {
+    $private = require __DIR__ . '/private.php';
+    $data = array_merge($data, $private);
+}
+
+return $data;

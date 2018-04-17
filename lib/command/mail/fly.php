@@ -1,9 +1,8 @@
 <?php
 namespace composer;
-define('COMPOSER_SCRIPT_PATH', __DIR__);
+define('COMPOSER_SCRIPT_PATH', __DIR__ . '/../../../');
 error_reporting(E_ALL);
 
-use lib\obj\cache;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -21,17 +20,18 @@ function sendMail($content) {
         $mail->isSMTP(); // Set mailer to use SMTP
         // $mail->Host = 'smtp.qq.com'; // Specify main and backup SMTP servers
         $mail->SMTPAuth = true; // Enable SMTP authentication
-        // $mail->Username = '582302894@qq.com'; // SMTP username
-        // $mail->Password = 'gkuhbsispfalbedj'; // SMTP password
-        // $mail->Password = 'gkuhbsispfalbedj'; // SMTP password
+        // $mail->Username = ''; // SMTP username
+        // $mail->Password = ''; // SMTP password
         // $mail->SMTPSecure = 'ssl'; // Enable TLS encryption, `ssl` also accepted
         // $mail->Port = 465; // TCP port to connect to
 
-        $mail->Host = 'smtp.163.com'; // Specify main and backup SMTP servers
-        $mail->Username = '18373250360@163.com'; // SMTP username
-        $mail->Password = '582302894Sun'; // SMTP password
-        $mail->SMTPSecure = 'TCP'; // Enable TLS encryption, `ssl` also accepted
-        $mail->Port = 25; // TCP port to connect to
+        $mailConfig = config('mail_config');
+
+        $mail->Host = $mailConfig[163]['host']; // Specify main and backup SMTP servers
+        $mail->Username = $mailConfig[163]['email']; // SMTP username
+        $mail->Password = $mailConfig[163]['key']; // SMTP password
+        $mail->SMTPSecure = $mailConfig[163]['secure']; // Enable TLS encryption, `ssl` also accepted
+        $mail->Port = $mailConfig[163]['port']; // TCP port to connect to
 
         $mail->setFrom('18373250360@163.com', 'sunhaobo');
         $mail->addAddress('1125477664@qq.com'); // Name is optional
@@ -50,4 +50,3 @@ function sendMail($content) {
     }
 }
 sendMail('alksjdklasd');
-
