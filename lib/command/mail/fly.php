@@ -20,20 +20,16 @@ function sendMail($content) {
         $mail->isSMTP(); // Set mailer to use SMTP
         // $mail->Host = 'smtp.qq.com'; // Specify main and backup SMTP servers
         $mail->SMTPAuth = true; // Enable SMTP authentication
-        // $mail->Username = ''; // SMTP username
-        // $mail->Password = ''; // SMTP password
-        // $mail->SMTPSecure = 'ssl'; // Enable TLS encryption, `ssl` also accepted
-        // $mail->Port = 465; // TCP port to connect to
 
         $mailConfig = config('mail_config');
 
-        $mail->Host = $mailConfig[163]['host']; // Specify main and backup SMTP servers
-        $mail->Username = $mailConfig[163]['email']; // SMTP username
-        $mail->Password = $mailConfig[163]['key']; // SMTP password
-        $mail->SMTPSecure = $mailConfig[163]['secure']; // Enable TLS encryption, `ssl` also accepted
-        $mail->Port = $mailConfig[163]['port']; // TCP port to connect to
+        $mail->Host = $mailConfig['163']['host']; // Specify main and backup SMTP servers
+        $mail->Username = $mailConfig['163']['email']; // SMTP username
+        $mail->Password = $mailConfig['163']['key']; // SMTP password
+        $mail->SMTPSecure = $mailConfig['163']['secure']; // Enable TLS encryption, `ssl` also accepted
+        $mail->Port = $mailConfig['163']['port']; // TCP port to connect to
 
-        $mail->setFrom('18373250360@163.com', 'sunhaobo');
+        $mail->setFrom($mailConfig['163']['email'], 'sunhaobo');
         $mail->addAddress('1125477664@qq.com'); // Name is optional
 
         $mail->isHTML(true); // Set email format to HTML
