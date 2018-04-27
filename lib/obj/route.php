@@ -1,5 +1,4 @@
 <?php
-
 namespace lib\obj;
 
 class route {
@@ -8,6 +7,8 @@ class route {
         $route = 'index/index/index';
         if (isset($_GET['s'])) {
             $route = $_GET['s'];
+        }
+        if (isset($pathinfo['extension'])) {
         }
         $result = explode('/', $route);
         if (count($result) != 3) {
@@ -27,5 +28,4 @@ class route {
         header('Content-type:html');
         echo $view;
     }
-
 }
