@@ -22,12 +22,18 @@ class Test {
 		//     4
 		// };
 		int[] a1 = new int[] {
-		    1,
-		    8
+		    9,
+		    9
 		};
 		int[] a2 = new int[] {
-		    0
+		    1
 		};
+		// int[] a1 = new int[] {
+		//     1, 6, 0, 3, 3, 6, 7, 2, 0, 1
+		// };
+		// int[] a2 = new int[] {
+		//     6, 3, 0, 8, 9, 6, 6, 9, 6, 1
+		// };
 		for (int i = 0; i < a1.length; i++) {
 			l1.val = a1[i];
 			if (i != (a1.length - 1)) {
@@ -43,8 +49,6 @@ class Test {
 			}
 		}
 		Solution obj = new Solution();
-		obj.show(l1Start);
-		obj.show(l2Start);
 		obj.addTwoNumbers(l1Start, l2Start);
 	}
 }
@@ -70,61 +74,31 @@ class Solution {
 		System.out.print("\n");
 	}
 	public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-		int L1Deep = 0, L2Deep = 0;
-		ListNode temp;
-		temp = l1;
-		while (temp != null) {
-			L1Deep++;
-			temp = temp.next;
-		}
-		temp = l2;
-		while (temp != null) {
-			L2Deep++;
-			temp = temp.next;
-		}
-		int deep = L1Deep > L2Deep ? L1Deep + 1 : L2Deep + 1;
-		int[] l1Array = new int[deep];
-		int[] l2Array = new int[deep];
-		temp = l1;
-		int i;
-		for (i = 0; i < deep; i++) {
-			l1Array[i] = 0;
-			l2Array[i] = 0;
-		}
-		i = 0;
-		while (temp != null) {
-			l1Array[deep - i - 2] = temp.val;
-			i++;
-			temp = temp.next;
-		}
-		temp = l2;
-		i = 0;
-		while (temp != null) {
-			l2Array[deep - i - 2] = temp.val;
-			i++;
-			temp = temp.next;
-		}
-		int j, sum = 0, lsp = 0;
-		ListNode res = new ListNode(0), start = new ListNode(0);
-		start = res;
-		ListNode[] resArray = new ListNode[deep];
-		for (j = 0; j < deep; j++) {
-			sum = l1Array[j] + l2Array[j] + sum;
-			lsp = sum % 10;
-			System.out.println(lsp);
-			resArray[j] = new ListNode(lsp);
-			if (sum >= 10) {
-				sum = 1;
+		ListNode start = null, end = null;
+		int sum = 0;
+		while (l1 != null || l2 != null || sum > 9) {
+			sum = sum / 10;
+			int a = 0, b = 0;
+			if (l1 != null) {
+				a = l1.val;
+				l1 = l1.next;
+			}
+			if (l2 != null) {
+				b = l2.val;
+				l2 = l2.next;
+			}
+			sum = a + b + sum;
+			ListNode temp = new ListNode(sum % 10);
+			if (start == null) {
+				start = temp;
+				end = start;
 			} else {
-				sum = 0;
+				if (end.next != null) {
+					end = end.next;
+				}
+				end.next = temp;
 			}
 		}
-		for (int k = 1; k < resArray.length; k++) {
-			if (k == (resArray.length - 1) && resArray[k].val == 0) {
-				break;
-			}
-			resArray[k - 1].next = resArray[k];
-		}
-		return resArray[0];
+		return start;
 	}
 }
