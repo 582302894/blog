@@ -22,6 +22,10 @@ class ComposerStaticInit5d607e793a0ad6311e87e239929f9e5c
         array (
             'my\\' => 3,
         ),
+        'l' => 
+        array (
+            'lib\\obj\\' => 8,
+        ),
         'W' => 
         array (
             'Workerman\\' => 10,
@@ -45,13 +49,17 @@ class ComposerStaticInit5d607e793a0ad6311e87e239929f9e5c
     public static $prefixDirsPsr4 = array (
         'think\\' => 
         array (
-            0 => __DIR__ . '/..' . '/topthink/think-orm/src',
-            1 => __DIR__ . '/..' . '/topthink/think-validate/src',
+            0 => __DIR__ . '/..' . '/topthink/think-validate/src',
+            1 => __DIR__ . '/..' . '/topthink/think-orm/src',
             2 => __DIR__ . '/..' . '/topthink/think-template/src',
         ),
         'my\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+        'lib\\obj\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/lib/obj',
         ),
         'Workerman\\' => 
         array (

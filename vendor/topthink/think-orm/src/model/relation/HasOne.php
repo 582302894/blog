@@ -11,8 +11,8 @@
 
 namespace think\model\relation;
 
-use think\db\Query;
 use think\Db;
+use think\db\Query;
 use think\Model;
 
 class HasOne extends OneToOne
@@ -51,6 +51,7 @@ class HasOne extends OneToOne
 
         // 判断关联类型执行查询
         $relationModel = $this->query
+            ->removeWhereField($this->foreignKey)
             ->where($this->foreignKey, $this->parent->$localKey)
             ->relation($subRelation)
             ->find();
@@ -113,10 +114,10 @@ class HasOne extends OneToOne
     /**
      * 预载入关联查询（数据集）
      * @access public
-     * @param array    $resultSet   数据集
-     * @param string   $relation    当前关联名
-     * @param string   $subRelation 子关联名
-     * @param \Closure $closure     闭包
+     * @param  array    $resultSet   数据集
+     * @param  string   $relation    当前关联名
+     * @param  string   $subRelation 子关联名
+     * @param  \Closure $closure     闭包
      * @return void
      */
     protected function eagerlySet(&$resultSet, $relation, $subRelation, $closure)
@@ -133,6 +134,8 @@ class HasOne extends OneToOne
         }
 
         if (!empty($range)) {
+            $this->query->removeWhereField($foreignKey);
+
             $data = $this->eagerlyWhere([
                 [$foreignKey, 'in', $range],
             ], $foreignKey, $relation, $subRelation, $closure);
@@ -165,10 +168,10 @@ class HasOne extends OneToOne
     /**
      * 预载入关联查询（数据）
      * @access public
-     * @param Model    $result      数据对象
-     * @param string   $relation    当前关联名
-     * @param string   $subRelation 子关联名
-     * @param \Closure $closure     闭包
+     * @param  Model    $result      数据对象
+     * @param  string   $relation    当前关联名
+     * @param  string   $subRelation 子关联名
+     * @param  \Closure $closure     闭包
      * @return void
      */
     protected function eagerlyOne(&$result, $relation, $subRelation, $closure)
@@ -196,4 +199,20 @@ class HasOne extends OneToOne
         }
     }
 
+    /**
+     * 执行基础查询（仅执行一次）
+     * @access protected
+     * @return void
+     */
+    protected function baseQuery()
+    {
+        if (empty($this->baseQuery)) {
+            if (isset($this->parent->{$this->localKey})) {
+                // 关联查询带入关联条件
+                $this->query->where($this->foreignKey, '=', $this->parent->{$this->localKey});
+            }
+
+            $this->baseQuery = true;
+        }
+    }
 }

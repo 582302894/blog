@@ -9,7 +9,6 @@ use think\db\Query;
  */
 trait SoftDelete
 {
-
     /**
      * 判断当前实例是否被软删除
      * @access public
@@ -19,7 +18,7 @@ trait SoftDelete
     {
         $field = $this->getDeleteTimeField();
 
-        if (!empty($this->getOrigin($field))) {
+        if ($field && !empty($this->getOrigin($field))) {
             return true;
         }
 
@@ -48,9 +47,24 @@ trait SoftDelete
         $model = new static();
         $field = $model->getDeleteTimeField(true);
 
-        return $model
-            ->db(false)
-            ->useSoftDelete($field, ['not null', '']);
+        if ($field) {
+            return $model
+                ->db(false)
+                ->useSoftDelete($field, $model->getWithTrashedExp());
+        }
+
+        return $model->db(false);
+    }
+
+    /**
+     * 获取软删除数据的查询条件
+     * @access protected
+     * @return array
+     */
+    protected function getWithTrashedExp()
+    {
+        return is_null($this->defaultSoftDelete) ?
+        ['notnull', ''] : ['<>', $this->defaultSoftDelete];
     }
 
     /**
@@ -67,7 +81,7 @@ trait SoftDelete
 
         $name = $this->getDeleteTimeField();
 
-        if (!$force) {
+        if ($name && !$force) {
             // 软删除
             $this->data($name, $this->autoWriteTimestamp($name));
 
@@ -140,26 +154,35 @@ trait SoftDelete
         $name = $this->getDeleteTimeField();
 
         if (empty($where)) {
-            $pk         = $this->getPk();
-            $where[$pk] = [$pk, '=', $this->getData($pk)];
+            $pk = $this->getPk();
+
+            $where[] = [$pk, '=', $this->getData($pk)];
         }
 
-        // 恢复删除
-        return $this->db(false)
-            ->where($where)
-            ->useSoftDelete($name, ['not null', ''])
-            ->update([$name => null]);
+        if ($name) {
+            // 恢复删除
+            return $this->db(false)
+                ->where($where)
+                ->useSoftDelete($name, $this->getWithTrashedExp())
+                ->update([$name => $this->defaultSoftDelete]);
+        }
+
+        return 0;
     }
 
     /**
      * 获取软删除字段
      * @access public
      * @param bool  $read 是否查询操作 写操作的时候会自动去掉表别名
-     * @return string
+     * @return string|false
      */
     protected function getDeleteTimeField($read = false)
     {
         $field = property_exists($this, 'deleteTime') && isset($this->deleteTime) ? $this->deleteTime : 'delete_time';
+
+        if (false === $field) {
+            return false;
+        }
 
         if (!strpos($field, '.')) {
             $field = '__TABLE__.' . $field;
@@ -171,5 +194,20 @@ trait SoftDelete
         }
 
         return $field;
+    }
+
+    /**
+     * 查询的时候默认排除软删除数据
+     * @access protected
+     * @param  Query  $query
+     * @return void
+     */
+    protected function withNoTrashed($query)
+    {
+        $field = $this->getDeleteTimeField(true);
+
+        if ($field) {
+            $query->useSoftDelete($field, $this->defaultSoftDelete);
+        }
     }
 }

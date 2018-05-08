@@ -20,7 +20,8 @@
     },
     "autoload": {
         "psr-4": {
-            "my\\": "src/"
+            "my\\": "src/",
+            "lib\\obj\\": "lib/obj/"
         }
     },
     "version": "1.0.0"

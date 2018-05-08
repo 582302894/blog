@@ -21,8 +21,7 @@ use MongoDB\Driver\Exception\RuntimeException;
 use MongoDB\Driver\Query as MongoQuery;
 use MongoDB\Driver\ReadPreference;
 use MongoDB\Driver\WriteConcern;
-use think\Collection;
-use think\db\connector\Mongo as Connection;
+use think\db\connector\Mongo as MongoConnection;
 use think\db\Query;
 
 class Mongo extends Query
@@ -32,10 +31,10 @@ class Mongo extends Query
      * 架构函数
      * @access public
      */
-    public function __construct(Connection $connection = null)
+    public function __construct(MongoConnection $connection = null)
     {
         if (is_null($connection)) {
-            $this->connection = Connection::instance();
+            $this->connection = MongoConnection::instance();
         } else {
             $this->connection = $connection;
         }
@@ -53,9 +52,15 @@ class Mongo extends Query
     public function removeWhereField($field, $logic = 'and')
     {
         $logic = '$' . strtoupper($logic);
-        if (isset($this->options['where'][$logic][$field])) {
-            unset($this->options['where'][$logic][$field]);
+
+        if (isset($this->options['where'][$logic])) {
+            foreach ($this->options['where'][$logic] as $key => $val) {
+                if (is_array($val) && $val[0] == $field) {
+                    unset($this->options['where'][$logic][$key]);
+                }
+            }
         }
+
         return $this;
     }
 
@@ -175,15 +180,15 @@ class Mongo extends Query
      * @access public
      * @param string $aggregate 聚合指令
      * @param string $field     字段名
-     * @param bool   $force   强制转为数字类型
+     * @param bool   $force     强制转为数字类型
      * @return mixed
      */
     public function aggregate($aggregate, $field, $force = false)
     {
         $this->parseOptions();
 
-        $result = $this->cmd('aggregate', [$aggregate, $field]);
-        $value  = isset($result[0]['result'][0]['aggregate']) ? $result[0]['result'][0]['aggregate'] : 0;
+        $result = $this->cmd('aggregate', [strtolower($aggregate), $field]);
+        $value  = isset($result[0]['aggregate']) ? $result[0]['aggregate'] : 0;
 
         if ($force) {
             $value += 0;
@@ -193,49 +198,28 @@ class Mongo extends Query
     }
 
     /**
-     * MAX查询
-     * @access public
-     * @param string $field   字段名
-     * @param bool   $force   强制转为数字类型
-     * @return float
+     * 多聚合操作
+     *
+     * @param array $aggregate 聚合指令, 可以聚合多个参数, 如 ['sum' => 'field1', 'avg' => 'field2']
+     * @param array $groupBy 类似mysql里面的group字段, 可以传入多个字段, 如 ['field_a', 'field_b', 'field_c']
+     * @return array 查询结果
      */
-    public function max($field, $force = true)
+    public function multiAggregate($aggregate, $groupBy)
     {
-        return $this->aggregate('max', $field, $force);
-    }
+        $this->parseOptions();
 
-    /**
-     * MIN查询
-     * @access public
-     * @param string $field   字段名
-     * @param bool   $force   强制转为数字类型
-     * @return mixed
-     */
-    public function min($field, $force = true)
-    {
-        return $this->aggregate('min', $field, $force);
-    }
+        $result = $this->cmd('multiAggregate', [$aggregate, $groupBy]);
 
-    /**
-     * SUM查询
-     * @access public
-     * @param string $field   字段名
-     * @return float
-     */
-    public function sum($field)
-    {
-        return $this->aggregate('sum', $field);
-    }
+        foreach ($result as &$row) {
+            if (isset($row['_id']) && !empty($row['_id'])) {
+                foreach ($row['_id'] as $k => $v) {
+                    $row[$k] = $v;
+                }
+                unset($row['_id']);
+            }
+        }
 
-    /**
-     * AVG查询
-     * @access public
-     * @param string $field   字段名
-     * @return float
-     */
-    public function avg($field)
-    {
-        return $this->aggregate('avg', $field);
+        return $result;
     }
 
     /**
@@ -305,13 +289,9 @@ class Mongo extends Query
      * @param integer      $step  增长值
      * @return $this
      */
-    public function inc($field, $step = 1)
+    public function inc($field, $step = 1, $op = 'inc')
     {
-        $fields = is_string($field) ? explode(',', $field) : $field;
-        foreach ($fields as $field) {
-            $this->data($field, ['$inc', $step]);
-        }
-        return $this;
+        return parent::inc($field, $step, strtolower('$' . $op));
     }
 
     /**
@@ -323,68 +303,7 @@ class Mongo extends Query
      */
     public function dec($field, $step = 1)
     {
-        $fields = is_string($field) ? explode(',', $field) : $field;
-        foreach ($fields as $field) {
-            $this->data($field, ['$inc', -1 * $step]);
-        }
-        return $this;
-    }
-
-    /**
-     * 分析查询表达式
-     * @access public
-     * @param string                $logic 查询逻辑    and or xor
-     * @param string|array|\Closure $field 查询字段
-     * @param mixed                 $op 查询表达式
-     * @param mixed                 $condition 查询条件
-     * @param array                 $param 查询参数
-     * @return void
-     */
-    protected function parseWhereExp($logic, $field, $op, $condition, $param = [])
-    {
-        $logic = '$' . strtolower($logic);
-        if ($field instanceof \Closure) {
-            $where = is_string($op) ? [$op, $field] : $field;
-        } elseif (is_null($op) && is_null($condition)) {
-            if (is_array($field)) {
-                if (key($field) !== 0) {
-                    $where = [];
-                    foreach ($field as $key => $val) {
-                        $where[$key] = !is_scalar($val) ? $val : [$key, '=', $val];
-                    }
-                } else {
-                    // 数组批量查询
-                    $where = $field;
-                }
-
-                if (!empty($where)) {
-                    $this->options['where'][$logic] = isset($this->options['where'][$logic]) ? array_merge($this->options['where'][$logic], $where) : $where;
-                }
-
-                return;
-            } elseif ($field && is_string($field)) {
-                // 字符串查询
-                $where = [$field, 'null', ''];
-            }
-        } elseif (is_array($op)) {
-            $where = $param;
-        } elseif (in_array(strtolower($op), ['null', 'notnull', 'not null'])) {
-            // null查询
-            $where = [$field, $op, ''];
-        } elseif (is_null($condition)) {
-            // 字段相等查询
-            $where = [$field, '=', $op];
-        } else {
-            $where = [$field, $op, $condition, isset($param[2]) ? $param[2] : null];
-        }
-
-        if (!empty($where)) {
-            if (isset($this->options['where'][$logic][$field])) {
-                $this->options['where'][$logic][] = $where;
-            } else {
-                $this->options['where'][$logic][$field] = $where;
-            }
-        }
+        return $this->inc($field, -1 * $step);
     }
 
     /**
@@ -539,7 +458,18 @@ class Mongo extends Query
      */
     public function field($field, $except = false, $tableName = '', $prefix = '', $alias = '')
     {
+        if (empty($field)) {
+            return $this;
+        } elseif ($field instanceof Expression) {
+            $this->options['field'][] = $field;
+            return $this;
+        }
+
         if (is_string($field)) {
+            if (preg_match('/[\<\'\"\(]/', $field)) {
+                return $this->fieldRaw($field);
+            }
+
             $field = array_map('trim', explode(',', $field));
         }
 
@@ -565,7 +495,7 @@ class Mongo extends Query
      */
     public function skip($skip)
     {
-        $this->options['skip'] = $skip;
+        $this->options['skip'] = intval($skip);
         return $this;
     }
 

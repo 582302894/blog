@@ -99,6 +99,18 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
     protected $queryInstance;
 
     /**
+     * 错误信息
+     * @var mixed
+     */
+    protected $error;
+
+    /**
+     * 软删除字段默认值
+     * @var mixed
+     */
+    protected $defaultSoftDelete;
+
+    /**
      * 架构函数
      * @access public
      * @param array|object $data 数据
@@ -185,7 +197,10 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
     {
         // 设置当前模型 确保查询返回模型对象
         $class = $this->query;
-        $query = (new $class())->connect($this->connection)->model($this);
+        $query = (new $class())->connect($this->connection)
+            ->model($this)
+            ->json($this->json)
+            ->setJsonFieldType($this->jsonType);
 
         // 设置当前数据表和模型名
         if (!empty($this->table)) {
@@ -229,9 +244,8 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
 
         if ($useBaseQuery) {
             // 软删除
-            if (method_exists($this, 'getDeleteTimeField')) {
-                $field = $this->getDeleteTimeField(true);
-                $query->useSoftDelete($field);
+            if (method_exists($this, 'withNoTrashed')) {
+                $this->withNoTrashed($query);
             }
 
             // 全局作用域
@@ -771,10 +785,11 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
      * @param mixed     $data  主键值或者查询条件（闭包）
      * @param mixed     $with  关联预查询
      * @param bool      $cache 是否缓存
+     * @param bool      $failException 数据不存在是否抛出异常
      * @return static
      * @throws exception\DbException
      */
-    public static function get($data, $with = [], $cache = false)
+    public static function get($data, $with = [], $cache = false, $failException = false)
     {
         if (is_null($data)) {
             return;
@@ -787,7 +802,21 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
 
         $query = static::parseQuery($data, $with, $cache);
 
-        return $query->find($data);
+        return $query->failException($failException)->find($data);
+    }
+
+    /**
+     * 查找单条记录 如果不存在直接抛出异常
+     * @access public
+     * @param  mixed     $data  主键值或者查询条件（闭包）
+     * @param  mixed     $with  关联预查询
+     * @param  bool      $cache 是否缓存
+     * @return static|null
+     * @throws exception\DbException
+     */
+    public static function getOrFail($data, $with = [], $cache = false)
+    {
+        return self::get($data, $with, $cache, true);
     }
 
     /**
@@ -821,7 +850,7 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
      */
     protected static function parseQuery(&$data, $with, $cache)
     {
-        $result = self::with($with)->cache($cache);
+        $result = self::with($with, true === $cache ? true : false)->cache($cache);
 
         if (is_array($data) && key($data) !== 0) {
             $result = $result->where(self::parseWhere($data));
@@ -870,6 +899,16 @@ abstract class Model implements \JsonSerializable, \ArrayAccess
         }
 
         return $count;
+    }
+
+    /**
+     * 获取错误信息
+     * @access public
+     * @return mixed
+     */
+    public function getError()
+    {
+        return $this->error;
     }
 
     /**

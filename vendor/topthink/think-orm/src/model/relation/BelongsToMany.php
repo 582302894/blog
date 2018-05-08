@@ -250,10 +250,10 @@ class BelongsToMany extends Relation
     /**
      * 预载入关联查询（数据集）
      * @access public
-     * @param array    $resultSet   数据集
-     * @param string   $relation    当前关联名
-     * @param string   $subRelation 子关联名
-     * @param \Closure $closure     闭包
+     * @param  array    $resultSet   数据集
+     * @param  string   $relation    当前关联名
+     * @param  string   $subRelation 子关联名
+     * @param  \Closure $closure     闭包
      * @return void
      */
     public function eagerlyResultSet(&$resultSet, $relation, $subRelation, $closure)
@@ -293,10 +293,10 @@ class BelongsToMany extends Relation
     /**
      * 预载入关联查询（单个数据）
      * @access public
-     * @param Model    $result      数据对象
-     * @param string   $relation    当前关联名
-     * @param string   $subRelation 子关联名
-     * @param \Closure $closure     闭包
+     * @param  Model    $result      数据对象
+     * @param  string   $relation    当前关联名
+     * @param  string   $subRelation 子关联名
+     * @param  \Closure $closure     闭包
      * @return void
      */
     public function eagerlyResult(&$result, $relation, $subRelation, $closure)
@@ -351,7 +351,7 @@ class BelongsToMany extends Relation
     {
         return $this->belongsToManyQuery($this->foreignKey, $this->localKey, [
             [
-                'pivot.' . $this->localKey, 'exp', '=' . $this->parent->getTable() . '.' . $this->parent->getPk(),
+                'pivot.' . $this->localKey, 'exp', Db::raw('=' . $this->parent->getTable() . '.' . $this->parent->getPk()),
             ],
         ])->fetchSql()->count();
     }
@@ -359,9 +359,9 @@ class BelongsToMany extends Relation
     /**
      * 多对多 关联模型预查询
      * @access public
-     * @param array  $where       关联预查询条件
-     * @param string $relation    关联名
-     * @param string $subRelation 子关联
+     * @param  array  $where       关联预查询条件
+     * @param  string $relation    关联名
+     * @param  string $subRelation 子关联
      * @return array
      */
     protected function eagerlyManyToMany($where, $relation, $subRelation = '')
@@ -531,11 +531,11 @@ class BelongsToMany extends Relation
         }
 
         // 删除中间表数据
-        $pk                     = $this->parent->getPk();
-        $pivot[$this->localKey] = $this->parent->$pk;
+        $pk      = $this->parent->getPk();
+        $pivot[] = [$this->localKey, '=', $this->parent->$pk];
 
         if (isset($id)) {
-            $pivot[$this->foreignKey] = is_array($id) ? [$this->foreignKey, 'in', $id] : [$this->foreignKey, '=', $id];
+            $pivot[] = is_array($id) ? [$this->foreignKey, 'in', $id] : [$this->foreignKey, '=', $id];
         }
 
         $this->pivot->where($pivot)->delete();

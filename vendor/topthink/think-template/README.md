@@ -21,14 +21,14 @@
 
 ## 安装
 
-~~~
+~~~php
 composer require topthink/think-template
 ~~~
 
 ## 用法示例
 
 在根目录下创建index.php入口文件测试：
-~~~
+~~~php
 <?php
 namespace think;
 
@@ -51,3 +51,5 @@ $template->fetch('./template/test.php');
 // 渲染内容输出
 $template->display($content);
 ~~~
+
+详细用法参考[这里](https://www.kancloud.cn/manual/thinkphp5_1/354069)

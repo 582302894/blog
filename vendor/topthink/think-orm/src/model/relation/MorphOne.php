@@ -11,9 +11,9 @@
 
 namespace think\model\relation;
 
+use think\Db;
 use think\db\Query;
 use think\Exception;
-use think\Db;
 use think\Model;
 use think\model\Relation;
 
@@ -96,10 +96,10 @@ class MorphOne extends Relation
     /**
      * 预载入关联查询
      * @access public
-     * @param array    $resultSet   数据集
-     * @param string   $relation    当前关联名
-     * @param string   $subRelation 子关联名
-     * @param \Closure $closure     闭包
+     * @param  array    $resultSet   数据集
+     * @param  string   $relation    当前关联名
+     * @param  string   $subRelation 子关联名
+     * @param  \Closure $closure     闭包
      * @return void
      */
     public function eagerlyResultSet(&$resultSet, $relation, $subRelation, $closure)
@@ -144,10 +144,10 @@ class MorphOne extends Relation
     /**
      * 预载入关联查询
      * @access public
-     * @param Model    $result      数据对象
-     * @param string   $relation    当前关联名
-     * @param string   $subRelation 子关联名
-     * @param \Closure $closure     闭包
+     * @param  Model    $result      数据对象
+     * @param  string   $relation    当前关联名
+     * @param  string   $subRelation 子关联名
+     * @param  \Closure $closure     闭包
      * @return void
      */
     public function eagerlyResult(&$result, $relation, $subRelation, $closure)
@@ -175,11 +175,11 @@ class MorphOne extends Relation
 
     /**
      * 多态一对一 关联模型预查询
-     * @access   public
-     * @param array         $where       关联预查询条件
-     * @param string        $relation    关联名
-     * @param string        $subRelation 子关联
-     * @param bool|\Closure $closure     闭包
+     * @access public
+     * @param  array         $where       关联预查询条件
+     * @param  string        $relation    关联名
+     * @param  string        $subRelation 子关联
+     * @param  bool|\Closure $closure     闭包
      * @return array
      */
     protected function eagerlyMorphToOne($where, $relation, $subRelation = '', $closure = false)
