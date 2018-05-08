@@ -21,13 +21,17 @@ foreach ($files as $file) {
 
 try {
     if (defined('PHP_CLI') == false) {
-        error_reporting(0);
-        register_shutdown_function("fatal_handler");
-        set_error_handler("error_handler");
+        // error_reporting(0);
+        // register_shutdown_function("fatal_handler");
+        // set_error_handler("error_handler");
     }
     \lib\obj\Db::run();
     \lib\obj\route::run();
 } catch (\Exception $e) {
     \lib\obj\log::exception($e);
-    show($e);
+    if (Config('ENV_DEBUG') === true) {
+        show($e);
+    }
+    echo $e->getMessage();
+    // show($e);
 }

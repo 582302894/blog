@@ -1,6 +1,7 @@
 <?php
 
 $data = [
+    'ENV_DEBUG' => false,
     'cache_path' => COMPOSER_SCRIPT_PATH . '/lib/runtime/cache/data',
     'runtime_workerman' => COMPOSER_SCRIPT_PATH . '/lib/runtime/workerman',
     'cache_time' => 3600,
@@ -15,6 +16,10 @@ $data = [
     'smarty' => [
         'left' => '{----',
         'right' => '----}',
+    ],
+    'redis' => [
+        'host' => '127.0.0.1',
+        'port' => '6379',
     ],
 ];
 

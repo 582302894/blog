@@ -81,7 +81,7 @@ function deleteEmpty($root = []) {
     return $arr;
 }
 
-function Config($name = '') {
+function Config($name = '', $parameter = null) {
     if (!isset($GLOBAL_CONFIGS)) {
         static $GLOBAL_CONFIGS;
         $temp = require COMPOSER_SCRIPT_PATH . '/lib/common/config.php';
@@ -91,7 +91,10 @@ function Config($name = '') {
     if ($name == '') {
         return $configs;
     }
-    return $configs[$name];
+    if ($parameter != null) {
+        return isset($configs[$name][$parameter]) ? $configs[$name][$parameter] : null;
+    }
+    return isset($configs[$name]) ? $configs[$name] : null;
 }
 
 /**
@@ -129,7 +132,7 @@ function db($table) {
 }
 
 //获取 fatal error
-function fatal_handler() {
+function fatalHandler() {
     define('E_FATAL', E_ERROR | E_USER_ERROR | E_CORE_ERROR |
         E_COMPILE_ERROR | E_RECOVERABLE_ERROR | E_PARSE);
     $error = error_get_last();
@@ -140,7 +143,7 @@ function fatal_handler() {
 }
 
 //获取其他所有的 error
-function error_handler($errno, $errstr, $errfile, $errline) {
+function errorHandler($errno, $errstr, $errfile, $errline) {
     \lib\obj\log::notice([
         'message' => $errstr,
         'file' => $errfile,

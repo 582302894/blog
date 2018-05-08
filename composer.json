@@ -15,7 +15,8 @@
         "topthink/think-validate": "^1.0",
         "topthink/think-template": "^1.0",
         "monolog/monolog": "^1.23",
-        "PHPMailer/PHPMailer": "^6.0"
+        "PHPMailer/PHPMailer": "^6.0",
+        "predis/predis": "^1.1"
     },
     "autoload": {
         "psr-4": {
