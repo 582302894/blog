@@ -24,8 +24,13 @@ class route {
         require_once COMPOSER_SCRIPT_PATH . '/lib/app/' . $m . '/' . $c . '.php';
         $class = "\lib\app\\" . $m . "\\" . $c;
         $app = new $class();
-        $view = call_user_func(array($app, $a));
-        header('Content-type:html');
-        echo $view;
+        $return = call_user_func(array($app, $a));
+        if (is_string($return)) {
+            header('Content-type:text/html;charset=utf-8');
+            echo $return;
+        }
+        if (is_array($return) || is_object($return)) {
+            show($return);
+        }
     }
 }

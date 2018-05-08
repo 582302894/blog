@@ -1,9 +1,8 @@
 <?php
-namespace composer;
 
-define('PHP_CLI', true);
 define('COMPOSER_SCRIPT_PATH', __DIR__);
 
-require COMPOSER_SCRIPT_PATH . '/lib/autoload.php';
+require COMPOSER_SCRIPT_PATH . '/vendor/autoload.php';
 
 \my\test::test();
+new \lib\obj\test();

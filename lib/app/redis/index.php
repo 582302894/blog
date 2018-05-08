@@ -1,5 +1,6 @@
 <?php
 namespace lib\app\redis;
+use lib\obj\PhpRedis;
 
 class index {
     public function index() {
@@ -11,9 +12,21 @@ class index {
         $redis = new \Redis();
         $flag = $redis->connect($host, $port);
         if ($flag) {
-            throw new \Exception("redis链接成功");
+            echo "redis连接成功\n";
         } else {
-            throw new \Exception("redis链接失败");
+            throw new \Exception("redis连接失败");
         }
+        PhpRedis::connect();
+        // sleep(2);
+        $connect = PhpRedis::connect();
+        if ($connect === false) {
+            throw new \Exception("Predis连接失败");
+        }
+        $connect->transaction(function ($tx) {
+            $tx->set('test', 'a');
+            $tx->set('test1', 'b');
+        });
+        echo $connect->get('test') . "\n";
+        echo $connect->get('test1') . "\n";
     }
 }
