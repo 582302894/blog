@@ -29,7 +29,7 @@ class Solution {
     public function networkDelayTime($times, $N, $K) {
         $L = count($times);
         for ($i = 1; $i < $N; $i++) {
-            $book[$N] = 0;
+            $book[$i] = 0;
         }
         $MAX = 100000;
         for ($i = 1; $i <= $N; $i++) {
@@ -37,10 +37,10 @@ class Solution {
         }
         $dis[$K] = 0;
 
-        for ($i = 1; $i <= $N; $i++) {
-            $lists[$i] = $K;
-            $top[$i] = 0;
-        }
+        // for ($i = 1; $i <= $N; $i++) {
+        //     $lists[$i] = $K;
+        //     $top[$i] = 0;
+        // }
 
         for ($i = 2; $i <= $N; $i++) {
             for ($j = 0; $j < $L; $j++) {
@@ -65,3 +65,47 @@ $times = [
     [1, 4, 1],
 ];
 (new Solution)->networkDelayTime($times, 5, 1);
+
+?>
+
+
+java 代码
+
+class Solution {
+    public int networkDelayTime(int[][] times, int N, int K) {
+
+        int L=times.length;
+        int MAX=100000000;
+        int[] dis=new int[N+1];
+
+        dis[0]=0;
+        for(int i=1;i<=N;i++){
+            dis[i]=MAX;
+        }
+        dis[K]=0;
+
+        for(int i=2;i<=N;i++){
+            for(int j=0;j<L;j++){
+                int u=times[j][0];
+                int v=times[j][1];
+                int w=times[j][2];
+                int weight=w+dis[u];
+                if(dis[v]>weight){
+                    dis[v]=weight;
+                }
+            }
+        }
+
+        int max=0;
+        for(int i=1;i<=N;i++){
+            if(dis[i]==MAX){
+                return -1;
+            }
+            if(dis[i]>max){
+                max=dis[i];
+            }
+        }
+        return max;
+    }
+}
+
